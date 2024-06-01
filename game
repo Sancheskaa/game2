@@ -1,0 +1,45 @@
+import random
+
+def choose_word():
+    words = ['яблуко', 'банан', 'вишня', 'диня', 'груша']
+    return random.choice(words)
+
+def display_word(word, guessed_letters):
+    return ''.join([letter if letter in guessed_letters else '_' for letter in word])
+
+def guess_word_game():
+    word_to_guess = choose_word()
+    guessed_letters = set()
+    attempts = 0
+
+    print("Вітаю в грі 'Вгадай слово'!")
+    print("Загадане слово:", display_word(word_to_guess, guessed_letters))
+
+    while True:
+        guess = input("Введіть літеру або все слово: ").lower()
+        attempts += 1
+
+        if guess == word_to_guess:
+            print(f"Вітаю! Ви вгадали слово '{word_to_guess}' за {attempts} спроб.")
+            break
+        elif len(guess) == 1 and guess.isalpha():
+            if guess in guessed_letters:
+                print("Ви вже вгадували цю літеру. Спробуйте ще раз.")
+            elif guess in word_to_guess:
+                guessed_letters.add(guess)
+                print("Вірно!")
+            else:
+                guessed_letters.add(guess)
+                print("Невірно.")
+        else:
+            print("Неправильний ввід. Введіть одну літеру або спробуйте вгадати все слово.")
+
+        current_display = display_word(word_to_guess, guessed_letters)
+        print("Загадане слово:", current_display)
+
+        if '_' not in current_display:
+            print(f"Вітаю! Ви вгадали слово '{word_to_guess}' за {attempts} спроб.")
+            break
+
+if __name__ == "__main__":
+    guess_word_game()
